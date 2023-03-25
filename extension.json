@@ -29,7 +29,7 @@
 		"MatomoJSFileURL": null
 	},
 	"Hooks": {
-		"SkinAfterBottomScripts": [
+		"BeforePageDisplay": [
 			"MediaWiki\\Extension\\Matomo\\Hooks::MatomoSetup"
 		],
 		"SpecialSearchResults": [

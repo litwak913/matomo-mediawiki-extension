@@ -23,9 +23,8 @@ class Hooks {
 	 * @param string &$text
 	 * @return bool
 	 */
-	public static function MatomoSetup( $skin, &$text = '' ) {
-		$text .= self::addMatomo( $skin->getTitle() );
-		return true;
+	public static function MatomoSetup( $out, $skin ) {
+		$out->addHeadItem( 'kazuha', self::addMatomo( $skin->getTitle() ) );
 	}
 
 	/**
@@ -170,7 +169,7 @@ class Hooks {
 		// Track username based on https://matomo.org/docs/user-id/ The user
 		// name for anonymous visitors is their IP address which Matomo already
 		// records.
-		if ( self::getParameter( 'TrackUsernames' ) && $user->isLoggedIn() ) {
+		if ( self::getParameter( 'TrackUsernames' ) && !$user->isAnon() ) {
 			$username = Xml::encodeJsVar( $user->getName() );
 			$customJs .= PHP_EOL . "  _paq.push([\"setUserId\",{$username}]);";
 		}
@@ -204,7 +203,6 @@ class Hooks {
 
 		// Matomo script
 		$script = <<<MATOMO
-<!-- Matomo -->
 <script type="text/javascript">
   var _paq = _paq || [];{$disableCookiesStr}{$customJs}
   _paq.push(["{$trackingType}"{$jsTrackingSearch}]);
@@ -212,17 +210,12 @@ class Hooks {
 
   (function() {
     var u = (("https:" == document.location.protocol) ? "https" : "http") + "://"{$jsMatomoURLCommon};
-    _paq.push(["setTrackerUrl", u{$jsMatomoURL}+"piwik.php"]);
+    _paq.push(["setTrackerUrl", u{$jsMatomoURL}+"kazuha.php"]);
     _paq.push(["setSiteId", "{$idSite}"]);
     var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
     g.defer=true; g.async=true; g.src=u+{$jsMatomoJSFileURL}; s.parentNode.insertBefore(g,s);
   })();
 </script>
-<!-- End Matomo Code -->
-
-<!-- Matomo Image Tracker -->
-<noscript><img src="{$protocol}://{$matomoURL}/piwik.php?idsite={$idSite}&rec=1{$urlTrackingSearch}" style="border:0" alt="" /></noscript>
-<!-- End Matomo -->
 MATOMO;
 
 		return $script;
