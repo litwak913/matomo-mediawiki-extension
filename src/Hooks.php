@@ -20,12 +20,12 @@ class Hooks {
 	/**
 	 * Initialize the Matomo hook
 	 *
-	 * @param OutputPage $out
+	 * @param \OutputPage $out
 	 * @param Skin $skin
 	 * @return bool
 	 */
 	public static function MatomoSetup( $out, $skin ) {
-		$out->addScript( self::addMatomo( $skin->getTitle() ) );
+		$out->addHeadItem( 'matomo', self::addMatomo( $skin->getTitle() ) );
 	}
 
 	/**
