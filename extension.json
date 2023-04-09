@@ -24,6 +24,7 @@
 		"MatomoActionName": "",
 		"MatomoDisableCookies": false,
 		"MatomoProtocol": "auto",
+		"MatomoPHPFile": "piwik.php",
 		"MatomoUsernameCustomVariable": [],
 		"MatomoTrackUsernames": false,
 		"MatomoJSFileURL": null

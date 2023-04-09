@@ -4,6 +4,7 @@ namespace MediaWiki\Extension\Matomo;
 
 use RequestContext;
 use Xml;
+use SearchResultSet;
 
 class Hooks {
 
@@ -19,12 +20,12 @@ class Hooks {
 	/**
 	 * Initialize the Matomo hook
 	 *
-	 * @param string $skin
-	 * @param string &$text
+	 * @param OutputPage $out
+	 * @param Skin $skin
 	 * @return bool
 	 */
 	public static function MatomoSetup( $out, $skin ) {
-		$out->addHeadItem( 'kazuha', self::addMatomo( $skin->getTitle() ) );
+		$out->addScript( self::addMatomo( $skin->getTitle() ) );
 	}
 
 	/**
@@ -78,7 +79,7 @@ class Hooks {
 
 	/**
 	 * Add Matomo script
-	 * @param string $title
+	 * @param Title $title
 	 * @return string
 	 */
 	public static function addMatomo( $title ) {
@@ -103,7 +104,7 @@ class Hooks {
 		$protocol = self::getParameter( 'Protocol' );
 		$customJS = self::getParameter( 'CustomJS' );
 		$jsFileURL = self::getParameter( 'JSFileURL' );
-
+		$phpFile = self::getParameter( 'PHPFile' );
 		// Missing configuration parameters
 		if ( empty( $idSite ) || empty( $matomoURL ) ) {
 			return '<!-- You need to set the settings for Matomo -->';
@@ -210,7 +211,7 @@ class Hooks {
 
   (function() {
     var u = (("https:" == document.location.protocol) ? "https" : "http") + "://"{$jsMatomoURLCommon};
-    _paq.push(["setTrackerUrl", u{$jsMatomoURL}+"kazuha.php"]);
+    _paq.push(["setTrackerUrl", u{$jsMatomoURL}+"{$phpFile}"]);
     _paq.push(["setSiteId", "{$idSite}"]);
     var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
     g.defer=true; g.async=true; g.src=u+{$jsMatomoJSFileURL}; s.parentNode.insertBefore(g,s);
