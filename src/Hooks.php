@@ -215,8 +215,17 @@ class Hooks {
     _paq.push(["setSiteId", "{$idSite}"]);
     var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
     g.defer=true; g.async=true; g.src=u+{$jsMatomoJSFileURL}; s.parentNode.insertBefore(g,s);
+	RLQ.push(()=>{
+		var _interval = setInterval(()=>{
+		  if (typeof mw.trackSubscribe === 'function'){
+			clearInterval(_interval);
+			mw.trackSubscribe('', (topic,obj)=>{
+				window._paq.push(['trackEvent', 'MediaWiki', topic, JSON.stringify(>
+			});
+		  }
+		}, 200);
+	});
   })();
-  RLQ.push( () => { mw.trackSubscribe( '', ( topic, obj ) => { window._paq.push( [ 'trackEvent', 'MediaWiki', topic, JSON.stringify( obj ) ] ); } ); } );
 </script>
 MATOMO;
 
