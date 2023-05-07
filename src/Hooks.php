@@ -220,7 +220,7 @@ class Hooks {
 		  if (typeof mw.trackSubscribe === 'function'){
 			clearInterval(_interval);
 			mw.trackSubscribe('', (topic,obj)=>{
-				window._paq.push(['trackEvent', 'MediaWiki', topic, JSON.stringify(>
+				window._paq.push(['trackEvent', 'MediaWiki', topic, JSON.stringify(obj)]);
 			});
 		  }
 		}, 200);
