@@ -216,6 +216,7 @@ class Hooks {
     var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
     g.defer=true; g.async=true; g.src=u+{$jsMatomoJSFileURL}; s.parentNode.insertBefore(g,s);
   })();
+  mw.trackSubscribe( '', ( topic, obj ) => { window._paq.push( [ 'trackEvent', 'MediaWiki', topic, JSON.stringify( obj ) ] ); } );
 </script>
 MATOMO;
 
